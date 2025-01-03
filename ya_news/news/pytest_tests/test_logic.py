@@ -19,7 +19,8 @@ from pytest_django.asserts import assertFormError, assertRedirects
 def test_parametrized_client_create_comment(
         parametrized_client, comments_count, news, form_comment_data):
     """Анонимный пользователь не может отправить комментарий, авторизованный
-    пользователь может отправить комментарий."""
+    пользователь может отправить комментарий.
+    """
     url = reverse('news:detail', args=(news.id,))
     parametrized_client.post(url, data=form_comment_data)
     assert Comment.objects.count() == comments_count
@@ -29,7 +30,8 @@ def test_user_cant_use_bad_words(
         not_author_client, news, form_comment_bad_words_data
 ):
     """Если комментарий содержит запрещённые слова, он не будет опубликован,
-    а форма вернёт ошибку."""
+    а форма вернёт ошибку.
+    """
     url = reverse('news:detail', args=(news.id,))
     response = not_author_client.post(url, data=form_comment_bad_words_data)
     assertFormError(response, 'form', 'text', errors=WARNING)
