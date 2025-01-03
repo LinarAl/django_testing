@@ -11,7 +11,6 @@ from pytest_django.asserts import assertFormError, assertRedirects
 
     'parametrized_client, comments_count',
     (
-
         (pytest.lazy_fixture('client'), 0),
         (pytest.lazy_fixture('not_author_client'), 1),
     )
