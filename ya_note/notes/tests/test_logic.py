@@ -18,12 +18,14 @@ class TestNoteCreation(TestBase):
 
     def test_user_can_create_note(self):
         """Проверка создания заметки авторизованным пользователем."""
+        base_notes_count = Note.objects.count()
         response = self.auth_client.post(
             self.ADD_URL, data=self.form_data)
 
         self.assertRedirects(response, self.DONE_URL)
         notes_count = Note.objects.count()
-        self.assertEqual(notes_count, 2)
+        added_notes_count = notes_count - base_notes_count
+        self.assertEqual(notes_count, added_notes_count + 1)
 
         note = Note.objects.get(slug=self.NEW_SLUG)
 
@@ -49,13 +51,15 @@ class TestNoteCreation(TestBase):
         """Если при создании заметки не заполнен slug, то он формируется
         автоматически.
         """
+        base_notes_count = Note.objects.count()
         self.form_data.pop('slug')
         response = self.auth_client.post(
             self.ADD_URL, data=self.form_data)
         self.assertRedirects(response, self.DONE_URL)
         notes_count = Note.objects.count()
-        self.assertEqual(notes_count, 2)
-        new_note = Note.objects.get(id='2')
+        added_notes_count = notes_count - base_notes_count
+        self.assertEqual(notes_count, added_notes_count + 1)
+        new_note = Note.objects.get(id=notes_count)
         expected_slug = slugify(self.form_data['title'])
         self.assertEqual(new_note.slug, expected_slug)
 
