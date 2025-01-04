@@ -64,7 +64,6 @@ class TestRoutes(TestBase):
 
     def test_redirect_for_anonymous_client(self):
         """Проверка редиректа неавторизованного пользователя."""
-
         for name in (
             self.ADD_URL_LITERAL,
             self.LIST_URL_LITERAL,
