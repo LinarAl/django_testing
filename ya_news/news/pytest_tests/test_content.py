@@ -2,11 +2,13 @@ import pytest
 from django.conf import settings
 from django.urls import reverse
 
+from .constants import DETAIL_URL_LITERAL, HOME_URL_LITERAL
+
 
 @pytest.mark.django_db
 def test_news_count(client, news_list):
     """Количество новостей на главной странице — не более 10."""
-    url = reverse('news:home')
+    url = reverse(HOME_URL_LITERAL)
     response = client.get(url)
     object_list = response.context['object_list']
     news_count = object_list.count()
@@ -16,7 +18,7 @@ def test_news_count(client, news_list):
 @pytest.mark.django_db
 def test_news_order(client, news_list):
     """Новости отсортированы от самой свежей к самой старой."""
-    url = reverse('news:home')
+    url = reverse(HOME_URL_LITERAL)
     response = client.get(url)
     object_list = response.context['object_list']
     all_dates = [news.date for news in object_list]
@@ -29,7 +31,7 @@ def test_comments_order(client, news, comments_list):
     """Комментарии на странице отдельной новости отсортированы в
     хронологическом порядке: старые в начале списка, новые — в конце.
     """
-    url = reverse('news:detail', args=(news.id,))
+    url = reverse(DETAIL_URL_LITERAL, args=(news.id,))
     response = client.get(url)
     assert 'news' in response.context
     news = response.context['news']
@@ -53,6 +55,6 @@ def test_parametrized_client_has_or_no_form(
     """Анонимному пользователю недоступна форма для отправки комментария на
     странице отдельной новости, а авторизованному доступна.
     """
-    url = reverse('news:detail', args=(news.id,))
+    url = reverse(DETAIL_URL_LITERAL, args=(news.id,))
     response = parametrized_client.get(url)
     assert ('form' in response.context) is form_in_context

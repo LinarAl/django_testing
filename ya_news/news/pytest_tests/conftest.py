@@ -5,7 +5,6 @@ import pytest
 from django.conf import settings
 from django.test.client import Client
 from django.utils import timezone
-from news.forms import BAD_WORDS
 from news.models import Comment, News
 
 
@@ -54,16 +53,6 @@ def comment(author, news):
 
 
 @pytest.fixture
-def news_id_for_args(news):
-    return (news.id,)
-
-
-@pytest.fixture
-def comment_id_for_args(comment):
-    return (comment.id,)
-
-
-@pytest.fixture
 def news_list():
     today = datetime.today()
     all_news = [
@@ -88,17 +77,3 @@ def comments_list(author, news):
         )
         comment.created = now + timedelta(days=index)
         comment.save()
-
-
-@pytest.fixture
-def form_comment_data():
-    return {
-        'text': 'Новый текст',
-    }
-
-
-@pytest.fixture
-def form_comment_bad_words_data():
-    return {
-        'text': f'Текст {BAD_WORDS[0]}, еще текст',
-    }
