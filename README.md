@@ -1,7 +1,5 @@
 # Django testing  
-## Если вы успели выполнить все домашние задания — ваш финальный проект готов.
-Перенесите тесты из ваших проектов в данный репозиторий (**django_testing**), который появился в вашем аккаунте.  
-В итоге должна получиться следующая структура репозитория:
+## Структура репозитория:
 ```
 Dev
  └── django_testing
@@ -9,7 +7,7 @@ Dev
      │   ├── news
      │   │   ├── fixtures/
      │   │   ├── migrations/
-     │   │   ├── pytest_tests/   <- Директория с вашими тестами pytest для проекта ya_news
+     │   │   ├── pytest_tests/   <- Директория с тестами pytest для проекта ya_news
      │   │   ├── __init__.py
      │   │   ├── admin.py
      │   │   ├── apps.py
@@ -24,7 +22,7 @@ Dev
      ├── ya_note
      │   ├── notes
      │   │   ├── migrations/
-     │   │   ├── tests/          <- Директория с вашими тестами unittest для проекта ya_note
+     │   │   ├── tests/          <- Директория с тестами unittest для проекта ya_note
      │   │   ├── __init__.py
      │   │   ├── admin.py
      │   │   ├── apps.py
@@ -41,12 +39,54 @@ Dev
      ├── requirements.txt
      └── structure_test.py
 ```
+## Как запустить проект:
+1. Клонировать репозиторий и перейти в него в командной строке:
 
-## После копирования тестов, написанных в ходе прохождения спринта, для проверки готовности проекта к сдаче необходимо выполнить 4 действия:
-1. Создать и активировать виртуальное окружение; установить зависимости из файла `requirements.txt`;
-2. Запустить скрипт для `run_tests.sh` из корневой директории проекта:
-```sh
-bash run_tests.sh
-```
+    ```
+    git clone https://github.com/LinarAl/django_testing.git
+    ```
+    ```
+    cd django_testing
+    ```
 
-**Если все проверки успешно выполнились, проект можно отправлять на ревью.**
+2. Cоздать и активировать виртуальное окружение:
+
+    - Если у вас Linux/macOS
+    ```
+    python3 -m venv env
+    ```
+    ```
+    source env/bin/activate
+    ```
+    - Если у вас windows
+    ```
+    python -m venv env
+    ```
+    ```
+    source env/scripts/activate
+    ```
+3. Обновить pip и установить зависимости из файла requirements.txt:
+    ```
+    python -m pip install --upgrade pip
+    ```
+    ```
+    pip install -r requirements.txt
+    ```
+4. Выполнить миграции:
+    ```
+    cd ya_news
+    ```
+    ```
+    python manage.py migrate
+    ```
+    ```
+    cd ../ya_note
+    ```
+     ```
+    python manage.py migrate
+    ```
+5. Запустить проект:
+    - находясь в папке ya_note или ya_news:
+    ```
+    python manage.py runserver
+    ```
